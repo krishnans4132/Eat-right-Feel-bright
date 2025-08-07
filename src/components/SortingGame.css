@@ -1,4 +1,12 @@
 /* --- Base Mobile Styles (No Scroll Layout) --- */
+.game-footer {
+  width: 100%;
+  text-align: center;
+  padding: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--color-dark);
+  flex-shrink: 0; /* Ensures it doesn't shrink */
+}
 .game-container {
   font-family: var(--font-montserrat);
   background-color: var(--color-bg);

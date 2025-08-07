@@ -4,49 +4,48 @@ import Fooditems from './Fooditems';
 import DropZone from './DropZone';
 import './SortingGame.css';
 
-// --- UPDATED HINTS ---
 const foodData = [
   {
     name: 'Banana',
     image: '/assets/images/banana.png',
     type: 'healthy',
     audio: '/assets/audios/banana.mp3',
-    hint: 'Bananas are fruits that give you good energy.',
+    hint: 'Bananas are fruits that give you good energy. They are healthy!',
   },
   {
     name: 'Burger',
     image: '/assets/images/burger.png',
     type: 'unhealthy',
     audio: '/assets/audios/burger.mp3',
-    hint: 'Burgers are yummy, but have a lot of fat',
+    hint: 'Burgers are yummy, but have a lot of fat, making them unhealthy.',
   },
   {
     name: 'Milk',
     image: '/assets/images/milk-bottle.png',
     type: 'healthy',
     audio: '/assets/audios/milk.mp3',
-    hint: 'Milk has calcium which makes your bones strong.',
+    hint: 'Milk has calcium which makes your bones strong. It is healthy!',
   },
   {
     name: 'Icecream',
     image: '/assets/images/ice-cream.png',
     type: 'unhealthy',
     audio: '/assets/audios/icecream.mp3',
-    hint: 'Ice cream has a lot of sugar',
+    hint: 'Ice cream has a lot of sugar, so it is an unhealthy treat.',
   },
   {
     name: 'Eggs',
     image: '/assets/images/eggs.png',
     type: 'healthy',
     audio: '/assets/audios/eggs.mp3',
-    hint: 'Eggs are full of protein and help you grow.',
+    hint: 'Eggs are full of protein and help you grow. They are healthy!',
   },
   {
     name: 'Cooldrink',
     image: '/assets/images/drink.png',
     type: 'unhealthy',
     audio: '/assets/audios/cooldrink.mp3',
-    hint: 'Fizzy drinks have too much sugar ',
+    hint: 'Fizzy drinks have too much sugar and are unhealthy.',
   }
 ];
 
@@ -58,6 +57,23 @@ const SortingGame = () => {
   const [lastWrongItem, setLastWrongItem] = useState(null);
   const navigate = useNavigate();
 
+  // Keyboard Handler to navigate home on 'Escape' key press
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        navigate('/');
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    // Cleanup the event listener when the component unmounts
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [navigate]);
+
+  // Check for win condition
   useEffect(() => {
     if (items.length === 0 && wronglyPlacedItems.length === 0 && gameStatus === 'playing') {
       setGameStatus('won');
@@ -145,6 +161,10 @@ const SortingGame = () => {
           <Fooditems key={item.name} item={item} />
         ))}
       </div>
+      
+      <footer className="game-footer">
+        <p>Pro Tip: Press the <strong>`Esc`</strong> key to go back home at any time!</p>
+      </footer>
     </div>
   );
 };
