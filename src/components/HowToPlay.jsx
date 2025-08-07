@@ -1,52 +1,33 @@
 import { useNavigate } from 'react-router-dom';
+import './HowToPlay.css'; // Import the new CSS file
 
 const HowToPlay = () => {
   const navigate = useNavigate();
 
+  const playInstructionAudio = () => {
+    // Make sure your audio file is in the public folder
+    const audio = new Audio('/assets/audios/howtoplay.mp3');
+    audio.play();
+  };
+
   return (
-    <div style={styles.container}>
-      <h2 style={styles.heading}>How to Play</h2>
-      <p style={styles.text}>
+    <div className="how-to-play-container">
+      <h2 className="how-to-play-heading">How to Play</h2>
+      <p className="how-to-play-text">
         Drag and drop the food items into the correct category: <strong>Healthy</strong> or
         <strong> Unhealthy</strong>. If you place an item incorrectly, you’ll hear an audio clue to help
         you learn. Try to sort all foods correctly!
       </p>
-      <button style={styles.button} onClick={() => navigate('/')}>Back to Home</button>
+      <div className="how-to-play-button-container">
+        <button className="how-to-play-button" onClick={playInstructionAudio}>
+          Play Audio
+        </button>
+        <button className="how-to-play-button" onClick={() => navigate('/')}>
+          Back to Home
+        </button>
+      </div>
     </div>
   );
-};
-
-const styles = {
-  container: {
-    fontFamily: 'var(--font-montserrat)',
-    backgroundColor: 'var(--color-bg)',
-    color: 'var(--color-dark)',
-    height: '100vh',
-    padding: '2rem',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    textAlign: 'center'
-  },
-  heading: {
-    fontSize: '2rem',
-    marginBottom: '1rem',
-  },
-  text: {
-    fontSize: '1.2rem',
-    maxWidth: '600px',
-  },
-  button: {
-    marginTop: '2rem',
-    padding: '0.75rem 1.5rem',
-    fontSize: '1rem',
-    borderRadius: '10px',
-    border: 'none',
-    backgroundColor: 'var(--color-primary)',
-    color: 'white',
-    cursor: 'pointer',
-  },
 };
 
 export default HowToPlay;

@@ -1,0 +1,67 @@
+/* --- Base Mobile Styles --- */
+.landing-container {
+  background-color: var(--color-secondary);
+  color: var(--color-text);
+  font-family: var(--font-montserrat);
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem; /* Add some padding for small screens */
+  box-sizing: border-box;
+}
+
+.landing-title {
+  cursor: pointer;
+  font-size: 2.2rem; /* Smaller font size for mobile */
+  margin-bottom: 3rem; /* Increase space below title */
+  text-align: center;
+}
+
+/* Stack buttons vertically on mobile for easier tapping */
+.landing-button-container {
+  display: flex;
+  flex-direction: column; /* Stack vertically */
+  gap: 1.5rem; /* Increase gap between buttons */
+  width: 90%; /* Make the container take up most of the width */
+  max-width: 350px; /* But don't let it get too wide */
+}
+
+.landing-button {
+  padding: 1rem; /* Adjust padding for a better feel on mobile */
+  background-color: var(--color-primary);
+  border: none;
+  border-radius: 10px;
+  color: #fff;
+  font-size: 1.2rem; /* Slightly larger font for readability */
+  cursor: pointer;
+  transition: all 0.2s ease-in-out; /* Transition all properties */
+  width: 100%; /* Make buttons fill their container */
+}
+
+.landing-button:hover {
+  transform: scale(1.05);
+  background-color: #535bf2;
+}
+
+
+/* --- Tablet and Desktop Styles (768px and wider) --- */
+@media (min-width: 768px) {
+  /* Restore original styles for larger screens */
+  .landing-title {
+    font-size: 3rem;
+  }
+
+  .landing-button-container {
+    flex-direction: row; /* Go back to side-by-side */
+    gap: 1rem;
+    width: auto; /* Let the container fit its content */
+  }
+
+  .landing-button {
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    width: auto; /* Let the button fit its text */
+  }
+}

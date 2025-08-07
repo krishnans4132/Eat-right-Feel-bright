@@ -1,100 +1,134 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Fooditems from './Fooditems';
 import DropZone from './DropZone';
 import './SortingGame.css';
 
+// --- UPDATED HINTS ---
 const foodData = [
-   {
+  {
     name: 'Banana',
     image: '/assets/images/banana.png',
     type: 'healthy',
     audio: '/assets/audios/banana.mp3',
+    hint: 'Bananas are fruits that give you good energy.',
   },
   {
     name: 'Burger',
     image: '/assets/images/burger.png',
     type: 'unhealthy',
     audio: '/assets/audios/burger.mp3',
+    hint: 'Burgers are yummy, but have a lot of fat',
   },
   {
     name: 'Milk',
     image: '/assets/images/milk-bottle.png',
     type: 'healthy',
     audio: '/assets/audios/milk.mp3',
+    hint: 'Milk has calcium which makes your bones strong.',
   },
   {
     name: 'Icecream',
     image: '/assets/images/ice-cream.png',
     type: 'unhealthy',
     audio: '/assets/audios/icecream.mp3',
+    hint: 'Ice cream has a lot of sugar',
   },
   {
     name: 'Eggs',
     image: '/assets/images/eggs.png',
     type: 'healthy',
     audio: '/assets/audios/eggs.mp3',
+    hint: 'Eggs are full of protein and help you grow.',
   },
   {
     name: 'Cooldrink',
     image: '/assets/images/drink.png',
     type: 'unhealthy',
     audio: '/assets/audios/cooldrink.mp3',
+    hint: 'Fizzy drinks have too much sugar ',
   }
-  // can add more items here
 ];
 
 const SortingGame = () => {
   const [items, setItems] = useState(foodData);
   const [score, setScore] = useState(0);
-  // NEW: State to hold items placed in the wrong zone
   const [wronglyPlacedItems, setWronglyPlacedItems] = useState([]);
+  const [gameStatus, setGameStatus] = useState('playing');
+  const [lastWrongItem, setLastWrongItem] = useState(null);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (items.length === 0 && wronglyPlacedItems.length === 0 && gameStatus === 'playing') {
+      setGameStatus('won');
+    }
+  }, [items, wronglyPlacedItems, gameStatus]);
+
   const handleDrop = (item, zoneType) => {
-    // Correct Drop
+    setLastWrongItem(null);
     if (item.type === zoneType) {
       setScore(score + 1);
-      // If the item was previously in the wrong list, remove it.
-      // This effectively "decrements" the wrong count.
       setWronglyPlacedItems((prev) => prev.filter((i) => i.name !== item.name));
-    }
-    // Incorrect Drop
-    else {
-      setWronglyPlacedItems((prev) => [...prev, item]); // Add to wrong list
+    } else {
+      setWronglyPlacedItems((prev) => [...prev, item]);
+      setLastWrongItem(item);
       const audio = new Audio(item.audio);
       audio.play();
     }
-    // Remove the item from the main list so it can't be dragged again
     setItems((prev) => prev.filter((i) => i.name !== item.name));
   };
 
-  // NEW: Function to handle the "Redo" button click
   const handleRedo = (itemToRedo) => {
-    // Remove the item from the wrong list
+    setLastWrongItem(null);
     setWronglyPlacedItems((prev) => prev.filter((i) => i.name !== itemToRedo.name));
-    // Add it back to the main list of items at the bottom
     setItems((prev) => [...prev, itemToRedo]);
   };
 
+  const handlePlayAgain = () => {
+    setItems(foodData);
+    setScore(0);
+    setWronglyPlacedItems([]);
+    setGameStatus('playing');
+    setLastWrongItem(null);
+  };
+
+  if (gameStatus !== 'playing') {
+    return (
+      <div className="game-over-container">
+        <h1 className="congrats-heading">
+          {gameStatus === 'won' ? 'Congratulations!' : 'Game Over!'}
+        </h1>
+        {gameStatus === 'won' && (
+          <p className="congrats-text">You sorted all the food correctly!</p>
+        )}
+        <p className="final-score">Final Score: {score}</p>
+        <div className="game-over-buttons">
+          <button onClick={handlePlayAgain} className="button">Play Again</button>
+          <button onClick={() => navigate('/')} className="button">Back to Home</button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="game-container">
       <div className="header">
-        <div className='buttonContainer'>
-          <button onClick={() => navigate('/')} className='button'>Back to Home</button>
+        <div className="header-buttons">
+            <button onClick={() => navigate('/')} className='button'>Back to Home</button>
+            <button onClick={() => setGameStatus('ended')} className="button end-game-button">End Game</button>
         </div>
         <div className="score-container">
-          <h2 className="score">Score: {score}</h2>
-          {/* The wrong count is now the length of the new array */}
-          <h2 className="wrong-attempts">Wrong: {wronglyPlacedItems.length}</h2>
+            <h2 className="score">Score: {score}</h2>
+            <h2 className="wrong-attempts">Wrong: {wronglyPlacedItems.length}</h2>
         </div>
+      </div>
+
+      <div className="hint-container">
+        {lastWrongItem && <p className="hint-text">Hint: {lastWrongItem.hint}</p>}
       </div>
 
       <div className="zones">
         <DropZone type="healthy" onDrop={handleDrop} />
-
-        {/* --- NEW: Area to display wrongly placed items with Redo buttons --- */}
         <div className="wrong-items-container">
           {wronglyPlacedItems.map((item) => (
             <div key={item.name} className="wrong-item">
@@ -103,7 +137,6 @@ const SortingGame = () => {
             </div>
           ))}
         </div>
-
         <DropZone type="unhealthy" onDrop={handleDrop} />
       </div>
 
