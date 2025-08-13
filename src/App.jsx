@@ -1,4 +1,4 @@
-// src/App.module.jsx
+
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import LandingPage from './components/Landingpage';
 import SortingGame from './components/SortingGame';

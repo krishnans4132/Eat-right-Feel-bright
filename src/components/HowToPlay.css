@@ -1,4 +1,4 @@
-/* --- Base Mobile Styles --- */
+
 .how-to-play-container {
   font-family: var(--font-montserrat);
   background-color: var(--color-bg);
@@ -6,20 +6,20 @@
   height: 100vh;
   padding: 1rem;
   display: flex;
-  flex-direction: column; /* Main axis is vertical */
+  flex-direction: column; 
   justify-content: center;
   align-items: center;
   text-align: center;
   box-sizing: border-box;
 }
 
-/* New container for the main content */
+
 .how-to-play-main-content {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  flex-grow: 1; /* Allows this to take up available space */
+  flex-grow: 1; 
 }
 
 .how-to-play-heading {
@@ -58,7 +58,7 @@
   background-color: #535bf2;
 }
 
-/* New footer styles */
+
 .how-to-play-footer {
   width: 100%;
   text-align: center;
@@ -66,11 +66,10 @@
   font-size: 0.8rem;
   color: var(--color-dark);
   flex-shrink: 0;
-  margin-top: auto; /* Pushes the footer to the bottom */
+  margin-top: auto; 
 }
 
 
-/* --- Tablet and Desktop Styles (768px and wider) --- */
 @media (min-width: 768px) {
   .how-to-play-container {
     padding: 2rem;

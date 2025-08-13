@@ -57,7 +57,7 @@ const SortingGame = () => {
   const [lastWrongItem, setLastWrongItem] = useState(null);
   const navigate = useNavigate();
 
-  // Keyboard Handler to navigate home on 'Escape' key press
+  
   useEffect(() => {
     const handleKeyDown = (event) => {
       if (event.key === 'Escape') {
@@ -67,13 +67,12 @@ const SortingGame = () => {
 
     window.addEventListener('keydown', handleKeyDown);
 
-    // Cleanup the event listener when the component unmounts
+    
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, [navigate]);
 
-  // Check for win condition
   useEffect(() => {
     if (items.length === 0 && wronglyPlacedItems.length === 0 && gameStatus === 'playing') {
       setGameStatus('won');
